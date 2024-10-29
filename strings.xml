@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Nutrivision</string>
+    <string name="title_home">home</string>
+    <string name="camera">camera</string>
+    <string name="profile">profile</string>
+    <string name="hi_usman">Hi Usman!</string>
+    <string name="icon_description">Icon_Location\n</string>
+    <string name="current_location">Current Location</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name</string>
+</resources>
