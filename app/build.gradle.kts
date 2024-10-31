@@ -40,10 +40,18 @@ android {
 
     buildFeatures{
         viewBinding = true
+        mlModelBinding = true
     }
 }
 
 dependencies {
+    val cameraxVersion = "1.3.4"
+    // Camera
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation ("androidx.camera:camera-core:$cameraxVersion")
+
 
     implementation(libs.glide) // For image loading and caching
     implementation(libs.retrofit) // For API calls
@@ -60,6 +68,9 @@ dependencies {
     // Room database (Local)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
+    implementation(libs.tensorflow.lite.gpu)
     ksp(libs.room.compiler)
 
     // Maps

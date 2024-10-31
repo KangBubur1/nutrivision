@@ -45,7 +45,7 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etSignUpEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/login_background"
@@ -69,7 +69,7 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etSignUpNama"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/login_background"
@@ -93,7 +93,7 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etSignUpPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/login_background"
