@@ -1,94 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingStart="50dp">
 
-    <!-- Logo -->
-    <TextView
-        android:id="@+id/tvLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your Logo"
-        android:textSize="24sp"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="32dp"/>
+    <LinearLayout
+        android:layout_width="317dp"
+        android:layout_height="280dp"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <!-- Email Field -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email">
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/nutrivision"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            />
 
-        <com.google.android.material.textfield.TextInputEditText
+        <!-- Login title -->
+        <TextView
+            android:id="@+id/tvLoginTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="24sp"
+            android:fontFamily="@font/poppinssemibold"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center" />
+
+        <!-- Email Input -->
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="40dp"
+            android:text="Email"
+            android:fontFamily="@font/poppinsregular"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="50dp"
+            android:background="@drawable/login_background"
+            android:drawablePadding="8dp"
+            android:hint="Masukkan email"
+            android:fontFamily="@font/poppinsregular"
+            android:paddingLeft="16dp"
+            android:textColor="#ACACAC"
+            android:textSize="12sp" />
 
-    <!-- Password Field -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:layout_marginTop="16dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
+        <!-- Password Input -->
+        <TextView
+            android:id="@+id/tvPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_gravity="start"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="10dp"
+            android:text="Password"
+            android:fontFamily="@font/poppinsregular"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
-    <!-- Remember me and Forgot Password -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="16dp">
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/login_background"
+            android:drawablePadding="8dp"
+            android:hint="Masukkan Password"
+            android:fontFamily="@font/poppinsregular"
+            android:paddingLeft="16dp"
+            android:textColor="#ACACAC"
+            android:textSize="12sp" />
 
-        <CheckBox
-            android:id="@+id/cbRememberMe"
-            android:layout_width="wrap_content"
+        <!-- Remember Me and Forgot Password -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remember me"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
-        <TextView
-            android:id="@+id/tvForgotPassword"
-            android:layout_width="wrap_content"
+            <CheckBox
+                android:id="@+id/cbRememberMe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember me"
+                android:layout_gravity="start" />
+
+            <TextView
+                android:id="@+id/tvForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot Password?"
+                android:textColor="@android:color/holo_blue_dark"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <!-- Divider with OR -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Forgot Password ?"
-            android:textColor="#FF0000"/>
+            android:orientation="horizontal"
+            android:gravity="center">
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Atau"
+                android:layout_marginHorizontal="8dp"
+                android:fontFamily="@font/poppinsregular"
+                android:textColor="@android:color/black" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray" />
+        </LinearLayout>
+
+        <!-- Google and Facebook Buttons -->
+        <Button
+            android:id="@+id/btnGoogleLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Google"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/green"
+            android:layout_marginTop="5dp"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/btnFacebookLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Facebook"
+            android:backgroundTint="@android:color/white"
+            android:textColor="@color/green"
+            android:layout_marginTop="4dp"
+            android:padding="12dp" />
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:backgroundTint="#137D53"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="24dp"
+            android:padding="12dp" />
+
+        <!-- Register Link -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Belum memiliki akun? "
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/poppinslight"
+                android:layout_gravity="center_vertical"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppinsbold"
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
-
-    <!-- Login Button -->
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:layout_marginTop="24dp"/>
-
-    <!-- Don’t have an Account -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Don’t have an Account?"
-        android:paddingTop="16dp"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"/>
-
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_gravity="center_horizontal"/>
-
-</LinearLayout>
+</ScrollView>

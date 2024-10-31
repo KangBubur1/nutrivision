@@ -1,14 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvMyAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:text="Akun Saya"
+            android:fontFamily="@font/dmsanssemibold"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- User Profile Image -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/usman" />
+
+        <!-- User Name -->
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/dmsansbold"
+            android:text="Usman"
+            android:textColor="#181D27"
+            android:textSize="19sp" />
+
+        <!-- User Email -->
+        <TextView
+            android:id="@+id/tvUserEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/dmsansregular"
+            android:text="ItsUsman@gmail.com"
+            android:textColor="#ABABAB"
+            android:textSize="14sp" />
+
+        <!-- Layout untuk label dan input fields -->
+        <LinearLayout
+            android:layout_width="328dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- User Name Label -->
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginBottom="4dp"
+                android:text="Nama"
+                android:fontFamily="@font/intermedium"
+                android:textColor="#202020"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/input_background"
+                android:drawablePadding="8dp"
+                android:hint="Usman"
+                android:fontFamily="@font/intermedium"
+                android:paddingLeft="16dp"
+                android:textColor="#202020"
+                android:textSize="12sp" />
+
+            <!-- Email Label -->
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/intermedium"
+                android:textColor="#202020"
+                android:text="Email"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/input_background"
+                android:drawablePadding="8dp"
+                android:hint="ItsUsman@gmail.com"
+                android:fontFamily="@font/intermedium"
+                android:paddingLeft="16dp"
+                android:textColor="#202020"
+                android:textSize="12sp" />
+
+            <!-- Phone Label -->
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/intermedium"
+                android:textColor="#202020"
+                android:text="No. Telepon"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/input_background"
+                android:drawablePadding="8dp"
+                android:hint="+62 81233998822"
+                android:fontFamily="@font/intermedium"
+                android:paddingLeft="16dp"
+                android:textColor="#202020"
+                android:textSize="12sp" />
+
+            <!-- BPJS Label -->
+            <TextView
+                android:id="@+id/tvBPJS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/intermedium"
+                android:textColor="#202020"
+                android:text="Nomor BPJS"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etBPJS"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/input_background"
+                android:drawablePadding="8dp"
+                android:hint="Nomor BPJS"
+                android:fontFamily="@font/intermedium"
+                android:paddingLeft="16dp"
+                android:textColor="#202020"
+                android:textSize="12sp" />
+
+            <!-- Birthdate Label -->
+            <TextView
+                android:id="@+id/tvBirthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/intermedium"
+                android:textColor="#202020"
+                android:text="Tanggal Lahir"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etBirthdate"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/input_background"
+                android:drawablePadding="8dp"
+                android:hint="dd/mm/yyyy"
+                android:fontFamily="@font/intermedium"
+                android:paddingLeft="16dp"
+                android:textColor="#202020"
+                android:textSize="12sp" />
+
+            <!-- City Label -->
+            <TextView
+                android:id="@+id/tvCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/intermedium"
+                android:textColor="#202020"
+                android:text="Kota"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etCity"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/input_background"
+                android:drawablePadding="8dp"
+                android:hint="Kupang"
+                android:fontFamily="@font/intermedium"
+                android:paddingLeft="16dp"
+                android:textColor="#202020"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Update Profile Button -->
+        <Button
+            android:id="@+id/btnUpdateProfile"
+            android:layout_width="328dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#137D53"
+            android:text="Update Profile"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</ScrollView>
