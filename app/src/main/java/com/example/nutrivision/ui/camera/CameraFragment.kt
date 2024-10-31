@@ -1,12 +1,17 @@
 package com.example.nutrivision.ui.camera
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -67,6 +72,11 @@ class CameraFragment : Fragment() {
         binding.switchCameraButton.setOnClickListener {
             toggleCamera()
         }
+
+        // Open gallery to select image
+        binding.galleryButton.setOnClickListener {
+            openGallery()
+        }
     }
 
     private fun startCamera() {
@@ -113,14 +123,53 @@ class CameraFragment : Fragment() {
                     val capturedBitmap = imageAnalyzer?.getLastBitmap()
                     capturedBitmap?.let {
                         // Start the ResultActivity to show the results
-                        val intent = Intent(requireContext(), ResultActivity::class.java).apply {
-                            putExtra("captured_image", photoFile.absolutePath)
-                            putExtra("is_stunting", imageAnalyzer?.useStuntingModel)
-                        }
-                        startActivity(intent)
+                        startResultActivity(photoFile.absolutePath)
                     }
                 }
             })
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, GALLERY_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
+            data?.data?.let { uri ->
+                analyzeImageFromGallery(uri)
+            }
+        }
+    }
+
+    private fun analyzeImageFromGallery(uri: Uri) {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val originalBitmap = BitmapFactory.decodeStream(inputStream)
+
+        // Define the expected input size for your model
+        val expectedWidth = 640
+        val expectedHeight = 640
+
+        // Maintain aspect ratio
+        val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, expectedWidth, expectedHeight, true)
+
+        // Crop the image to the expected size if necessary
+        val finalBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, expectedWidth, expectedHeight)
+
+        // Analyze the final image
+        imageAnalyzer?.analyzeImage(finalBitmap)
+
+        // Start ResultActivity to show results
+        startResultActivity(uri.toString())
+    }
+
+    private fun startResultActivity(imagePath: String) {
+        val intent = Intent(requireContext(), ResultActivity::class.java).apply {
+            putExtra("captured_image", imagePath)
+            putExtra("is_stunting", imageAnalyzer?.useStuntingModel)
+        }
+        startActivity(intent)
     }
 
     private fun loadModelFile(modelName: String): ByteBuffer {
@@ -147,5 +196,9 @@ class CameraFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         cameraExecutor.shutdown()
+    }
+
+    companion object {
+        private const val GALLERY_REQUEST_CODE = 100
     }
 }

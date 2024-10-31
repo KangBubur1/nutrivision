@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.0-alpha08"
+agp = "8.7.0"
 kotlin = "2.0.20"
 glide = "4.16.0"
 coreKtx = "1.13.1"
@@ -9,22 +9,26 @@ espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.3"
-constraintlayout = "2.1.4"
+constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.8.3"
 navigationSafeArgsGradlePlugin = "2.8.3"
 navigationUiKtx = "2.8.3"
 navigationFragment = "2.8.3"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "19.0.0"
+playServicesTfliteGpu = "16.2.0"
+playServicesTfliteSupport = "16.1.0"
 roomCompiler = "2.6.1"
 roomRuntime = "2.6.1"
 retrofit = "2.11.0"
 lifecycleLivedataKtx = "2.8.6"
-lifecycleViewmodelKtx = "2.8.6"
+lifecycleViewmodelKtx = "2.8.7"
 loggingInterceptor = "4.12.0"
+tensorflowLite = "2.13.0"
 tensorflowLiteSupport = "0.4.4"
 tensorflowLiteMetadata = "0.4.4"
-tensorflowLiteGpu = "2.6.0"
+tensorflowLiteGpu = "2.9.0"
+tensorflowLiteTaskVisionPlayServices = "0.4.2"
 
 [libraries]
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
@@ -38,6 +42,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+play-services-tflite-gpu = { module = "com.google.android.gms:play-services-tflite-gpu", version.ref = "playServicesTfliteGpu" }
+play-services-tflite-support = { module = "com.google.android.gms:play-services-tflite-support", version.ref = "playServicesTfliteSupport" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
@@ -45,14 +51,13 @@ androidx-navigation-fragment = { group = "androidx.navigation", name = "navigati
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
-androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
-tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
+tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref = "tensorflowLite" }
 tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadata" }
 tensorflow-lite-gpu = { group = "org.tensorflow", name = "tensorflow-lite-gpu", version.ref = "tensorflowLiteGpu" }
+tensorflow-lite-task-vision-play-services = { module = "org.tensorflow:tensorflow-lite-task-vision-play-services", version.ref = "tensorflowLiteTaskVisionPlayServices" }
 
 
 

@@ -45,6 +45,16 @@ android {
 }
 
 dependencies {
+
+    // tensorflow
+    implementation(libs.tensorflow.lite.metadata)
+    implementation(libs.tensorflow.lite.task.vision.play.services)
+    implementation(libs.play.services.tflite.support)
+    implementation(libs.play.services.tflite.gpu)
+    implementation(libs.tensorflow.lite.gpu)
+    implementation (libs.tensorflow.lite)
+
+
     val cameraxVersion = "1.3.4"
     // Camera
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
@@ -68,9 +78,8 @@ dependencies {
     // Room database (Local)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.tensorflow.lite.support)
-    implementation(libs.tensorflow.lite.metadata)
-    implementation(libs.tensorflow.lite.gpu)
+
+
     ksp(libs.room.compiler)
 
     // Maps
