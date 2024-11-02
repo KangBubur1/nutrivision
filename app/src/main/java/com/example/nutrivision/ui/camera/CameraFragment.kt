@@ -6,35 +6,31 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.nutrivision.data.BoundingBox
 import com.example.nutrivision.databinding.FragmentCameraBinding
+import com.example.nutrivision.ml.BestStunting
 import com.example.nutrivision.ui.result.ResultActivity
-import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.support.image.TensorImage
 import java.io.File
-import java.io.FileInputStream
-import java.nio.ByteBuffer
-import java.nio.channels.FileChannel
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraFragment : Fragment() {
 
     private lateinit var binding: FragmentCameraBinding
-    private lateinit var stuntingModel: Interpreter
-    private lateinit var nutritionModel: Interpreter
     private lateinit var cameraExecutor: ExecutorService
-    private var imageAnalyzer: ImageAnalyzer? = null
-    private var cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-    private lateinit var imageCapture: ImageCapture
+    private var imageCapture: ImageCapture? = null
+
+    // Declare photoFile as a property of the fragment
+    private lateinit var photoFile: File
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,158 +43,137 @@ class CameraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Load models
-        stuntingModel = Interpreter(loadModelFile("best_stunting.tflite"))
-        nutritionModel = Interpreter(loadModelFile("best_food.tflite"))
         cameraExecutor = Executors.newSingleThreadExecutor()
+        startCamera() // Start the camera when the view is created
 
-        val overlayView = binding.overlayView
-        imageAnalyzer = ImageAnalyzer(stuntingModel, nutritionModel, overlayView)
-
-        startCamera()
-
-        // Handle model switch
-        binding.modelSwitch.setOnCheckedChangeListener { _, isChecked ->
-            imageAnalyzer?.useStuntingModel = isChecked
-            updateModelSwitchText(isChecked)
-        }
-
-        // Capture image
+        // Set up the capture button listener
         binding.captureButton.setOnClickListener {
-            captureImage()
-        }
-
-        // Switch camera
-        binding.switchCameraButton.setOnClickListener {
-            toggleCamera()
-        }
-
-        // Open gallery to select image
-        binding.galleryButton.setOnClickListener {
-            openGallery()
+            takePhoto()
         }
     }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
-            cameraProvider.unbindAll()
-
             val preview = Preview.Builder().build().also {
                 it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
             }
-
-            val imageAnalysis = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-                .also {
-                    it.setAnalyzer(cameraExecutor, imageAnalyzer!!)
-                }
-
             imageCapture = ImageCapture.Builder().build()
-            cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis, imageCapture)
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+            } catch (exc: Exception) {
+                Log.e("CameraFragment", "Use case binding failed", exc)
+            }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    private fun toggleCamera() {
-        cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA)
-            CameraSelector.DEFAULT_FRONT_CAMERA
-        else
-            CameraSelector.DEFAULT_BACK_CAMERA
-        startCamera()
-    }
+    private fun takePhoto() {
+        val imageCapture = imageCapture ?: return
 
-    private fun captureImage() {
-        val photoFile = createFile()
+        // Initialize photoFile here
+        photoFile = File(
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "captured_image.jpg"
+        )
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(requireContext()),
+        // Set up image capture listener, which is triggered after photo has been taken
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exception: ImageCaptureException) {
-                    Log.e("CameraFragment", "Image capture failed: ${exception.message}")
-                }
-
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    val capturedBitmap = imageAnalyzer?.getLastBitmap()
-                    capturedBitmap?.let {
-                        // Start the ResultActivity to show the results
-                        startResultActivity(photoFile.absolutePath)
-                    }
+                    val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+                    model(bitmap) // Pass the captured image to the model
                 }
-            })
+
+                override fun onError(exc: ImageCaptureException) {
+                    Log.e("CameraFragment", "Photo capture failed: ${exc.message}", exc)
+                }
+            }
+        )
     }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, GALLERY_REQUEST_CODE)
-    }
+    private fun model(bitmap: Bitmap) {
+        val model = BestStunting.newInstance(requireContext())
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == GALLERY_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
-            data?.data?.let { uri ->
-                analyzeImageFromGallery(uri)
+        // Convert Bitmap to TensorImage
+        val image = TensorImage.fromBitmap(bitmap)
+
+        // Perform inference
+        val outputs = model.process(image)
+
+        // Access the raw output tensor
+        val outputTensor = outputs.outputAsTensorBuffer
+        val outputArray = outputTensor.floatArray  // Get raw data as a float array
+
+        // Define label map
+        val labelMap = mapOf(
+            0 to "Stunting",
+            1 to "Normal"
+        )
+
+        Log.d("ModelOutput", "Output shape: ${outputTensor.shape.joinToString()}")
+
+        // Assuming each detection entry has 6 values [x, y, width, height, score, class]
+        val numDetections = outputTensor.shape[2]  // Expected to be 8400
+        var bestScore = 0f
+        var bestLabel = "Not Stunting" // Default to "Not Stunting"
+        var bestBoundingBox: BoundingBox? = null
+
+        for (i in 0 until numDetections) {
+            val index = i * 6
+            val score = outputArray[index + 4] // Confidence score
+            val classId = outputArray[index + 5].toInt() // Class label ID
+
+            // Log the score for each detection
+            Log.d("Detection", "Detection $i - Score: $score, Class: ${labelMap[classId]}")
+
+            // Check if this detection has a higher score than the current best
+            if (score > bestScore) {
+                bestScore = score
+                bestLabel = labelMap[classId] ?: "Unknown"
+                val x = outputArray[index]
+                val y = outputArray[index + 1]
+                val width = outputArray[index + 2]
+                val height = outputArray[index + 3]
+                bestBoundingBox = BoundingBox(x, y, x + width, y + height, bestLabel, bestScore)
             }
         }
-    }
 
-    private fun analyzeImageFromGallery(uri: Uri) {
-        val inputStream = requireContext().contentResolver.openInputStream(uri)
-        val originalBitmap = BitmapFactory.decodeStream(inputStream)
+        // Determine the final output based on the best score
+        // If bestScore > 0.25, set bestLabel to "Not Stunting"
+        if (bestScore > 0.25) {
+            bestLabel = "Not Stunting"
+        }
 
-        // Define the expected input size for your model
-        val expectedWidth = 640
-        val expectedHeight = 640
+        // Log the best score and final label
+        Log.d("FinalResult", "Best Score: $bestScore, Label: $bestLabel")
 
-        // Maintain aspect ratio
-        val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, expectedWidth, expectedHeight, true)
-
-        // Crop the image to the expected size if necessary
-        val finalBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, expectedWidth, expectedHeight)
-
-        // Analyze the final image
-        imageAnalyzer?.analyzeImage(finalBitmap)
-
-        // Start ResultActivity to show results
-        startResultActivity(uri.toString())
-    }
-
-    private fun startResultActivity(imagePath: String) {
+        // Start ResultActivity and pass the final result
         val intent = Intent(requireContext(), ResultActivity::class.java).apply {
-            putExtra("captured_image", imagePath)
-            putExtra("is_stunting", imageAnalyzer?.useStuntingModel)
+            putExtra("captured_image", photoFile.absolutePath)
+            putExtra("is_stunting", bestLabel == "Stunting") // Pass true if the label indicates stunting
+            putExtra("confidence_score", bestScore)
+            // Pass the best bounding box if it exists
+            bestBoundingBox?.let {
+                putExtra("boundingBoxes", arrayListOf(it)) // Pass the bounding box
+            }
         }
         startActivity(intent)
+
+        model.close()
     }
 
-    private fun loadModelFile(modelName: String): ByteBuffer {
-        requireContext().assets.openFd(modelName).use { fileDescriptor ->
-            FileInputStream(fileDescriptor.fileDescriptor).use { inputStream ->
-                val fileChannel = inputStream.channel
-                val startOffset = fileDescriptor.startOffset
-                val declaredLength = fileDescriptor.declaredLength
-                return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
-            }
-        }
-    }
 
-    private fun createFile(): File {
-        val dir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File(dir, "${System.currentTimeMillis()}.jpg")
-    }
 
-    private fun updateModelSwitchText(isStunting: Boolean) {
-        val modelType = if (isStunting) "Stunting Detection" else "Nutrition Detection"
-        binding.modelSwitch.text = modelType
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         cameraExecutor.shutdown()
-    }
-
-    companion object {
-        private const val GALLERY_REQUEST_CODE = 100
     }
 }
