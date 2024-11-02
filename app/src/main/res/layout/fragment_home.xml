@@ -16,24 +16,42 @@
         <com.example.nutrivision.ui.custom.CustomCardView
             android:id="@+id/cardBackground"
             android:layout_width="match_parent"
-            android:layout_height="169dp"
+            android:layout_height="124dp"
+            android:background="@drawable/cardview_background_home"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:text="@string/hi_usman"
-                android:fontFamily="@font/interextrabold"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <!-- ImageView for the new image -->
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"
+                    android:src="@drawable/usman"
+                    android:contentDescription="@string/profile"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- TextView for "Hi Usman" -->
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:text="@string/hi_usman"
+                    android:fontFamily="@font/interextrabold" />
+            </LinearLayout>
         </com.example.nutrivision.ui.custom.CustomCardView>
 
         <!-- Location section -->
@@ -41,36 +59,35 @@
             android:id="@+id/locationLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/cardBackground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
             android:padding="16dp"
-            android:gravity="center_vertical">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardBackground">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/location"
-                android:contentDescription="@string/icon_description" />
+                android:contentDescription="@string/icon_description"
+                android:src="@drawable/location" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/current_location"
                     android:fontFamily="@font/interregular"
                     android:padding="4dp"
-                    android:textSize="13sp"
-                    android:textColor="@color/textSecondary" />
+                    android:text="@string/current_location"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="13sp" />
 
-                <Spinner
+                 <Spinner
                     android:id="@+id/locationSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,15 +98,14 @@
         <!-- Card for Stunting Detection -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="380dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="349dp"
+            android:layout_height="124dp"
             app:cardBackgroundColor="#5DCB6A"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/locationLayout">
+            app:layout_constraintTop_toBottomOf="@+id/locationLayout">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -104,9 +120,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
                         android:fontFamily="@font/intersemibold"
-                        android:text="Stunting Detection"
+                        android:text="@string/stunting_detection"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
 
@@ -116,17 +131,18 @@
                         android:layout_marginTop="8dp"
                         android:backgroundTint="@color/black"
                         android:fontFamily="@font/intersemibold"
-                        android:text="Check"
+                        android:text="@string/check"
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- Absolute Positioned ImageView -->
+                <!-- Positioned ImageView -->
                 <ImageView
-                    android:layout_width="243dp"
-                    android:layout_height="158dp"
+                    android:layout_width="230dp"
+                    android:layout_height="127dp"
                     android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="-40dp"
+                    android:layout_marginEnd="-60dp"
                     android:scaleType="fitXY"
+                    android:contentDescription="@string/childer"
                     android:src="@drawable/childrenimage" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>
@@ -136,34 +152,111 @@
             android:id="@+id/foodRecommendationText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="32dp"
-            android:layout_marginTop="24dp"
-            android:text="Food Recommendation"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/intersemibold"
+            android:paddingHorizontal="32dp"
+            android:text="@string/food_recommendation"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/foodrecommendRV"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintTop_toBottomOf="@id/foodRecommendationText"
-            app:layout_constraintEnd_toEndOf="parent"
+        <!-- Food Recommendation Buttons -->
+        <ImageButton
+            android:id="@+id/ibSarapan"
+            android:layout_width="92dp"
+            android:layout_height="100dp"
+            android:background="@drawable/sarapan"
+            android:contentDescription="@string/sarapan"
+            app:layout_constraintEnd_toStartOf="@+id/ibMakanSiang"
             app:layout_constraintStart_toStartOf="parent"
-            android:paddingHorizontal="32dp"
-            android:layout_marginTop="8dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/foodRecommendationText" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map"
-            android:layout_marginTop="16dp"
-            android:padding="32dp"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <ImageButton
+            android:id="@+id/ibMakanSiang"
+            android:layout_width="92dp"
+            android:layout_height="100dp"
+            android:background="@drawable/makan_siang"
+            android:contentDescription="@string/makan_siang"
+            app:layout_constraintEnd_toStartOf="@+id/ibMakanMalam"
+            app:layout_constraintStart_toEndOf="@+id/ibSarapan"
+            app:layout_constraintTop_toBottomOf="@+id/foodRecommendationText" />
+
+        <ImageButton
+            android:id="@+id/ibMakanMalam"
+            android:layout_width="92dp"
+            android:layout_height="100dp"
+            android:background="@drawable/makan_malam"
+            android:contentDescription="@string/makan_malam"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ibMakanSiang"
+            app:layout_constraintTop_toBottomOf="@+id/foodRecommendationText" />
+
+
+        <TextView
+            android:id="@+id/tvStuntingMaps"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            app:layout_constraintTop_toBottomOf="@id/foodrecommendRV"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/intersemibold"
+            android:paddingHorizontal="32dp"
+            android:text="@string/stunting_maps"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ibMakanSiang" />
+
+        <ImageView
+            android:id="@+id/imageBelowMakanMalam"
+            android:layout_width="349dp"
+            android:layout_height="124dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/maps"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.516"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStuntingMaps" />
+
+        <TextView
+            android:id="@+id/tvBeritaTerbaru"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/intersemibold"
+            android:paddingHorizontal="32dp"
+            android:text="@string/berita_terbaru"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageBelowMakanMalam" />
+
+        <ImageButton
+            android:id="@+id/ibBerita1"
+            android:layout_width="170dp"
+            android:layout_height="90dp"
+            android:background="@drawable/berita1"
+            android:contentDescription="@string/berita1"
+            app:layout_constraintEnd_toStartOf="@+id/ibBerita2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvBeritaTerbaru"
+            android:layout_marginEnd="8.5dp" />
+
+
+        <ImageButton
+            android:id="@+id/ibBerita2"
+            android:layout_width="170dp"
+            android:layout_height="90dp"
+            android:background="@drawable/berita2"
+            android:contentDescription="@string/berita2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ibBerita1"
+            app:layout_constraintTop_toBottomOf="@+id/tvBeritaTerbaru"
+            android:layout_marginStart="8.5dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

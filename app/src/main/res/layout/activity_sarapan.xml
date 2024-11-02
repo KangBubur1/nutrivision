@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Judul Halaman -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sarapan"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Menu Pertama -->
+        <RelativeLayout
+            android:id="@+id/rlSayurRebus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@drawable/border_background"
+            android:layout_marginBottom="16dp">
+
+            <!-- Gambar Makanan -->
+            <ImageView
+                android:id="@+id/foodImage1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sayur_rebus" />
+
+            <!-- Nama Makanan -->
+            <TextView
+                android:id="@+id/foodTitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/foodImage1"
+                android:layout_marginStart="16dp"
+                android:text="Sayur Rebus"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Deskripsi Makanan -->
+            <TextView
+                android:id="@+id/foodDescription1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/foodTitle1"
+                android:layout_toEndOf="@id/foodImage1"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:text="Sup tahu kaya akan protein nabati dan serat, baik untuk menjaga kesehatan pencernaan."
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"/>
+
+            <!-- Informasi Kalori, Protein -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/foodDescription1"
+                android:layout_toEndOf="@id/foodImage1"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/caloriesText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,1 ccal"
+                    android:textColor="@color/black"
+                    android:drawableLeft="@drawable/ic_calories"
+                    android:drawablePadding="4dp"
+                    android:paddingEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/proteinText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Protein 17g"
+                    android:textColor="@color/black"
+                    android:drawableLeft="@drawable/ic_protein"
+                    android:drawablePadding="4dp"
+                    android:paddingEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/fatText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A, K, B12"
+                    android:textColor="@color/black"
+                    android:drawableLeft="@drawable/ic_vitamin"
+                    android:drawablePadding="4dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Menu Kedua -->
+        <RelativeLayout
+            android:id="@+id/rlSupTahu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@drawable/border_background">
+
+            <!-- Gambar Makanan -->
+            <ImageView
+                android:id="@+id/foodImage2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sup_tahu" />
+
+            <!-- Nama Makanan -->
+            <TextView
+                android:id="@+id/foodTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/foodImage2"
+                android:layout_marginStart="16dp"
+                android:text="Sup Tahu"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Deskripsi Makanan -->
+            <TextView
+                android:id="@+id/foodDescription2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/foodTitle2"
+                android:layout_toEndOf="@id/foodImage2"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:text="Nasi goreng sederhana dengan bumbu khas, cocok untuk menu sarapan bergizi."
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"/>
+
+            <!-- Informasi Kalori, Protein -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/foodDescription2"
+                android:layout_toEndOf="@id/foodImage2"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/caloriesText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="200 ccal"
+                    android:textColor="@color/black"
+                    android:drawableLeft="@drawable/ic_calories"
+                    android:drawablePadding="4dp"
+                    android:paddingEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/proteinText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Protein 10g"
+                    android:textColor="@color/black"
+                    android:drawableLeft="@drawable/ic_protein"
+                    android:drawablePadding="4dp"
+                    android:paddingEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/fatText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A, C, E"
+                    android:textColor="@color/black"
+                    android:drawableLeft="@drawable/ic_vitamin"
+                    android:drawablePadding="4dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

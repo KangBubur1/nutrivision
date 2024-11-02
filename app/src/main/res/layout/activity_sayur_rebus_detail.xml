@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Back Button and Title -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detail Makanan"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppinsbold"/>
+
+        <!-- Food Image with Rounded Corners -->
+        <ImageView
+            android:layout_width="343dp"
+            android:layout_height="200dp"
+            android:src="@drawable/sayur_rebus_detail"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/border_background"
+            android:clipToOutline="true"/>
+
+        <!-- Wrapper for remaining content to align with ImageView width -->
+        <LinearLayout
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Food Title and Type -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sayur Rebus"
+                android:textSize="24sp"
+                android:fontFamily="@font/poppinsbold"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Makan Malam"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppinssemibold" />
+
+            <!-- Approval Status -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disetujui"
+                android:textSize="14sp"
+                android:background="@drawable/profile_card_background"
+                android:fontFamily="@font/poppinsmedium"
+                android:textColor="@color/white"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Nutrition Information -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="250 cal"
+                    android:drawableLeft="@drawable/ic_calories"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5% Pro"
+                    android:drawableLeft="@drawable/ic_protein"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0.1% Fat"
+                    android:drawableLeft="@drawable/ic_fat"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="9% Carb"
+                    android:drawableLeft="@drawable/ic_carbs"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+            </LinearLayout>
+
+            <!-- Food Description -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kombinasi sayuran rebus seperti telur rebus, mentimun, wortel, dan jagung menyediakan sumber serat makanan, vitamin, dan mineral esensial yang kaya, sehingga meningkatkan kesehatan optimal."
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppinsregular"
+                android:lineSpacingExtra="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

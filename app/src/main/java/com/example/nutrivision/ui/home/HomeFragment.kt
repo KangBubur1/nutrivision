@@ -1,5 +1,6 @@
 package com.example.nutrivision.ui.home
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.example.nutrivision.data.FoodItem
 import com.example.nutrivision.databinding.FragmentHomeBinding
 import com.example.nutrivision.ui.adapter.FoodRecommendAdapter
 import com.example.nutrivision.ui.custom.adapter.CustomSpinnerAdapter
+import com.example.nutrivision.ui.sarapan.SarapanActivity
 
 class HomeFragment : Fragment() {
 
@@ -31,21 +33,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupCardBackground()
-        setupRecyclerView()
         setupLocationSpinner()
-    }
-
-    private fun setupRecyclerView() {
-        binding.foodrecommendRV.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val foodItems = listOf(
-            FoodItem(imageResId = R.drawable.home, title = "Children Image 1"),
-            FoodItem(imageResId = R.drawable.childrenimage, title = "Children Image 2"),
-            FoodItem(imageResId = R.drawable.childrenimage, title = "Children Image 3"),
-            FoodItem(imageResId = R.drawable.childrenimage, title = "Children Image 4"),
-            FoodItem(imageResId = R.drawable.childrenimage, title = "Children Image 5")
-        )
-        foodRecommendAdapter = FoodRecommendAdapter(requireContext(), foodItems)
-        binding.foodrecommendRV.adapter = foodRecommendAdapter
+        setupSarapanButton()
     }
 
     private fun setupCardBackground() {
@@ -58,13 +47,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupLocationSpinner() {
-        val locations = listOf("Jogjakarta", "Jakarta", "Bandung", "Surabaya")
+        val locations = listOf("Jogjakarta", "Jakarta", "Bandung", "Kupang")
         val adapter = CustomSpinnerAdapter(requireContext(), locations)
         binding.locationSpinner.adapter = adapter
+    }
+
+    private fun setupSarapanButton() {
+        binding.ibSarapan.setOnClickListener {
+            val intent = Intent(requireContext(), SarapanActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

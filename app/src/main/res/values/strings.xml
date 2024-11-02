@@ -13,4 +13,15 @@
     <string name="captured_image">capture Image\n</string>
     <string name="itsusman">\@itsUsman</string>
     <string name="bantuan_dukungan"><![CDATA[Bantuan & Dukungan]]></string>
+    <string name="makan_malam">Makan Malam</string>
+    <string name="makan_siang">Makan Siang</string>
+    <string name="sarapan">Sarapan</string>
+    <string name="check">Check</string>
+    <string name="childer">childer</string>
+    <string name="stunting_detection">Stunting Detection</string>
+    <string name="food_recommendation">Food Recommendation</string>
+    <string name="stunting_maps">Stunting Maps</string>
+    <string name="berita_terbaru">Berita Terbaru</string>
+    <string name="berita1">berita1</string>
+    <string name="berita2">berita2</string>
 </resources>
