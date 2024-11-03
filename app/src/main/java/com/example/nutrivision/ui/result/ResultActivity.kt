@@ -1,6 +1,7 @@
 package com.example.nutrivision.ui.result
 
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nutrivision.data.BoundingBox
@@ -15,14 +16,20 @@ class ResultActivity : AppCompatActivity() {
         binding = ActivityResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Get the image path and classification results
-        val imagePath = intent.getStringExtra("captured_image")
+        // Retrieve the image path and bounding boxes from the intent
+        val imagePath = intent.getStringExtra("captured_image_path")
+        val imageUriString = intent.getStringExtra("captured_image_uri")
         val boundingBoxes: List<BoundingBox>? = intent.getParcelableArrayListExtra("boundingBoxes")
 
-        // Set the captured image
-        imagePath?.let {
-            val bitmap = BitmapFactory.decodeFile(it)
+        // Display the captured image based on the source
+        if (!imagePath.isNullOrEmpty()) {
+            // Image captured from camera
+            val bitmap = BitmapFactory.decodeFile(imagePath)
             binding.capturedImageView.setImageBitmap(bitmap)
+        } else if (!imageUriString.isNullOrEmpty()) {
+            // Image selected from gallery
+            val imageUri = Uri.parse(imageUriString)
+            binding.capturedImageView.setImageURI(imageUri)
         }
 
         // Display classification results
@@ -34,7 +41,6 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun determineFinalResult(boundingBoxes: List<BoundingBox>?): String {
-        // Check if there are any bounding boxes and return the appropriate result
         return if (boundingBoxes.isNullOrEmpty()) {
             "No detections"
         } else {

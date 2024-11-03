@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.play.services.tflite.gpu)
     implementation(libs.tensorflow.lite.gpu)
     implementation (libs.tensorflow.lite)
+    implementation(("org.tensorflow:tensorflow-lite-support:0.4.4"))
 
 
     val cameraxVersion = "1.3.4"
