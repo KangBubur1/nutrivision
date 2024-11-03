@@ -1,10 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.result.ResultFoodActivity">
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Back Button and Title -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_makanan"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppinsbold"/>
+
+        <!-- Food Image with Rounded Corners -->
+        <ImageView
+            android:layout_width="343dp"
+            android:layout_height="200dp"
+            android:src="@drawable/bakwan_detail"
+            android:contentDescription="@string/bakwan_sayur"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/border_background"
+            android:clipToOutline="true"/>
+
+        <!-- Wrapper for remaining content to align with ImageView width -->
+        <LinearLayout
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Food Title and Type -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bakwan_sayur"
+                android:textSize="24sp"
+                android:fontFamily="@font/poppinsbold"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/makan_siang"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppinssemibold" />
+
+            <!-- Approval Status -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tidak_disetujui"
+                android:textSize="14sp"
+                android:background="@drawable/tidak_disetujui_background"
+                android:fontFamily="@font/poppinsmedium"
+                android:textColor="@color/white"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Nutrition Information -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/_150_cal"
+                    android:drawableLeft="@drawable/ic_calories"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/_10_pro"
+                    android:drawableLeft="@drawable/ic_protein"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/_23_fat"
+                    android:drawableLeft="@drawable/ic_fat"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/_9_chol"
+                    android:drawableLeft="@drawable/cholesterol"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/nutrition_border"/>
+            </LinearLayout>
+
+            <!-- Food Description -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bakwan_sayur_adalah_gorengan_yang_terbuat_dari_campuran_tepung_dan_sayuran_sering_dianggap_tidak_sehat_karena_proses_penggorengannya_yang_menambahkan_banyak_lemak"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppinsregular"
+                android:lineSpacingExtra="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

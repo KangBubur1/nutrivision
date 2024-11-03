@@ -24,4 +24,27 @@
     <string name="berita_terbaru">Berita Terbaru</string>
     <string name="berita1">berita1</string>
     <string name="berita2">berita2</string>
+    <string name="detail_makanan">Detail Makanan</string>
+    <string name="bakwan_sayur">Bakwan Sayur</string>
+    <string name="tidak_disetujui">Tidak Disetujui</string>
+    <string name="_150_cal">150 cal</string>
+    <string name="_10_pro">10% Pro</string>
+    <string name="_23_fat">23% Fat</string>
+    <string name="_9_chol">9% Chol</string>
+    <string name="bakwan_sayur_adalah_gorengan_yang_terbuat_dari_campuran_tepung_dan_sayuran_sering_dianggap_tidak_sehat_karena_proses_penggorengannya_yang_menambahkan_banyak_lemak">Bakwan Sayur adalah gorengan yang terbuat dari campuran tepung, dan sayuran sering dianggap tidak sehat karena proses penggorengannya yang menambahkan banyak lemak.</string>
+    <string name="sayur_rebus">Sayur Rebus</string>
+    <string name="disetujui">Disetujui</string>
+    <string name="_250_cal">250 cal</string>
+    <string name="_5_pro">5% Pro</string>
+    <string name="_0_1_fat">0.1% Fat</string>
+    <string name="_9_carb">9% Carb</string>
+    <string name="kombinasi_sayuran_rebus_seperti_telur_rebus_mentimun_wortel_dan_jagung_menyediakan_sumber_serat_makanan_vitamin_dan_mineral_esensial_yang_kaya_sehingga_meningkatkan_kesehatan_optimal">Kombinasi sayuran rebus seperti telur rebus, mentimun, wortel, dan jagung menyediakan sumber serat makanan, vitamin, dan mineral esensial yang kaya, sehingga meningkatkan kesehatan optimal.</string>
+    <string name="_250_ccal">250 ccal</string>
+    <string name="sup_tahu_kaya_akan_protein_nabati_dan_serat_baik_untuk_menjaga_kesehatan_pencernaan">Sup tahu kaya akan protein nabati dan serat, baik untuk menjaga kesehatan pencernaan.</string>
+    <string name="a_k_b12">A, K, B12</string>
+    <string name="protein_17g">Protein 17g</string>
+    <string name="a_c_e">A, C, E</string>
+    <string name="protein_10g">Protein 10g</string>
+    <string name="_200_ccal">200 ccal</string>
+    <string name="sup_tahu">Sup Tahu</string>
 </resources>
