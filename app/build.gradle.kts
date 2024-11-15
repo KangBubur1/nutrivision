@@ -46,6 +46,9 @@ android {
 
 dependencies {
 
+//    WebView
+    implementation("androidx.webkit:webkit:1.12.1")
+
     // tensorflow
     implementation(libs.tensorflow.lite.metadata)
     implementation(libs.tensorflow.lite.task.vision.play.services)

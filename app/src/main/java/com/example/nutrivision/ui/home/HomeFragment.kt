@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nutrivision.R
@@ -14,6 +15,7 @@ import com.example.nutrivision.data.FoodItem
 import com.example.nutrivision.databinding.FragmentHomeBinding
 import com.example.nutrivision.ui.adapter.FoodRecommendAdapter
 import com.example.nutrivision.ui.custom.adapter.CustomSpinnerAdapter
+import com.example.nutrivision.ui.map.WebViewActivity
 import com.example.nutrivision.ui.sarapan.SarapanActivity
 
 class HomeFragment : Fragment() {
@@ -35,6 +37,7 @@ class HomeFragment : Fragment() {
         setupCardBackground()
         setupLocationSpinner()
         setupSarapanButton()
+        setupWebViewButton()
     }
 
     private fun setupCardBackground() {
@@ -55,6 +58,13 @@ class HomeFragment : Fragment() {
     private fun setupSarapanButton() {
         binding.ibSarapan.setOnClickListener {
             val intent = Intent(requireContext(), SarapanActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupWebViewButton() {
+        binding.btnMaps.setOnClickListener {
+            val intent = Intent(requireContext(), WebViewActivity::class.java)
             startActivity(intent)
         }
     }

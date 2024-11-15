@@ -1,199 +1,163 @@
 package com.example.nutrivision.ui.camera
 
-import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
+import android.graphics.Matrix
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.nutrivision.data.BoundingBox
 import com.example.nutrivision.databinding.FragmentCameraBinding
-import com.example.nutrivision.ml.BestStunting
-import com.example.nutrivision.ml.BestFood // Import the new model
-import com.example.nutrivision.ui.result.ResultActivity
-import com.example.nutrivision.ui.result.ResultFoodActivity
-import org.tensorflow.lite.support.image.TensorImage
-import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraFragment : Fragment() {
 
-    private lateinit var binding: FragmentCameraBinding
+    private var _binding: FragmentCameraBinding? = null
+    private val binding get() = _binding!!
+    private val cameraViewModel: CameraViewModel by viewModels()
+
+    private var preview: Preview? = null
+    private var imageAnalyzer: ImageAnalysis? = null
+    private var camera: Camera? = null
+    private var cameraProvider: ProcessCameraProvider? = null
     private lateinit var cameraExecutor: ExecutorService
-    private var imageCapture: ImageCapture? = null
-    private lateinit var photoFile: File
-    private var isGalleryImage = false
-    private var selectedImageUri: Uri? = null
-    private var useFoodModel = false // Toggle variable for model selection
+
+    private val isFrontCamera = false
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentCameraBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentCameraBinding.inflate(inflater, container, false)
+        cameraExecutor = Executors.newSingleThreadExecutor()
 
-        // Add switch listener for model toggle
-        binding.modelSwitch.setOnCheckedChangeListener { _, isChecked ->
-            useFoodModel = isChecked // Toggle between models based on switch state
+        // Initialize detector
+        cameraViewModel.initializeDetector(requireContext())
+
+        // Observe ViewModel LiveData
+        setupObservers()
+
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun setupObservers() {
+        cameraViewModel.detectionResults.observe(viewLifecycleOwner, Observer { boundingBoxes ->
+            binding.overlay.apply {
+                setResults(boundingBoxes)
+                invalidate()
+            }
+        })
 
-        cameraExecutor = Executors.newSingleThreadExecutor()
-        startCamera()
-
-        binding.captureButton.setOnClickListener {
-            isGalleryImage = false
-            takePhoto()
-        }
-
-        binding.galleryButton.setOnClickListener {
-            isGalleryImage = true
-            selectImageFromGallery()
-        }
-    }
-
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            selectedImageUri = it
-            val bitmap = uriToBitmap(it)
-            processModel(bitmap)
-        }
+        cameraViewModel.inferenceTime.observe(viewLifecycleOwner, Observer { inferenceTime ->
+            binding.inferenceTime.text = "${inferenceTime}ms"
+        })
     }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-
         cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
-            }
-            imageCapture = ImageCapture.Builder().build()
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-            } catch (exc: Exception) {
-                Log.e("CameraFragment", "Use case binding failed", exc)
-            }
+            cameraProvider = cameraProviderFuture.get()
+            bindCameraUseCases()
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    private fun takePhoto() {
-        val imageCapture = imageCapture ?: return
+    private fun bindCameraUseCases() {
+        val cameraProvider = cameraProvider ?: throw IllegalStateException("Camera initialization failed.")
 
-        photoFile = File(
-            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-            "captured_image.jpg"
-        )
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        val rotation = binding.viewFinder.display.rotation
 
-        imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(requireContext()),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
-                    processModel(bitmap)
-                }
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+            .build()
 
-                override fun onError(exc: ImageCaptureException) {
-                    Log.e("CameraFragment", "Photo capture failed: ${exc.message}", exc)
-                }
-            }
-        )
-    }
+        preview = Preview.Builder()
+            .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+            .setTargetRotation(rotation)
+            .build()
 
-    private fun selectImageFromGallery() {
-        galleryLauncher.launch("image/*")
-    }
+        imageAnalyzer = ImageAnalysis.Builder()
+            .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .setTargetRotation(rotation)
+            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+            .build()
 
-    private fun processModel(bitmap: Bitmap) {
-        if (useFoodModel) {
-            // Process using BestFood model
-            val model = BestFood.newInstance(requireContext())
-            // Add model processing logic here...
-            // Navigate to ResultFoodActivity with processed data
-            val intent = Intent(requireContext(), ResultFoodActivity::class.java)
-            if (isGalleryImage && selectedImageUri != null) {
-                intent.putExtra("captured_image_uri", selectedImageUri.toString())
-            } else {
-                intent.putExtra("captured_image_path", photoFile.absolutePath)
-            }
-            startActivity(intent)
-            model.close()
-        } else {
-            // Process using BestStunting model
-            val model = BestStunting.newInstance(requireContext())
-            val image = TensorImage.fromBitmap(bitmap)
-            val outputs = model.process(image)
-            val outputTensor = outputs.outputAsTensorBuffer
-            val outputArray = outputTensor.floatArray
-            val labelMap = mapOf(0 to "Stunting", 1 to "Normal")
+        imageAnalyzer?.setAnalyzer(cameraExecutor) { imageProxy ->
+            val bitmapBuffer = Bitmap.createBitmap(
+                imageProxy.width,
+                imageProxy.height,
+                Bitmap.Config.ARGB_8888
+            )
+            imageProxy.use { bitmapBuffer.copyPixelsFromBuffer(imageProxy.planes[0].buffer) }
+            imageProxy.close()
 
-            val numDetections = outputTensor.shape[2]
-            var bestScore = 0f
-            var bestLabel = "Not Stunting"
-            var bestBoundingBox: BoundingBox? = null
-
-            for (i in 0 until numDetections) {
-                val index = i * 6
-                val score = outputArray[index + 4]
-                val classId = outputArray[index + 5].toInt()
-
-                if (score > bestScore) {
-                    bestScore = score
-                    bestLabel = labelMap[classId] ?: "Unknown"
-                    val x = outputArray[index]
-                    val y = outputArray[index + 1]
-                    val width = outputArray[index + 2]
-                    val height = outputArray[index + 3]
-                    bestBoundingBox = BoundingBox(x, y, x + width, y + height, bestLabel, bestScore)
+            val matrix = Matrix().apply {
+                postRotate(imageProxy.imageInfo.rotationDegrees.toFloat())
+                if (isFrontCamera) {
+                    postScale(-1f, 1f, imageProxy.width.toFloat(), imageProxy.height.toFloat())
                 }
             }
 
-            val intent = Intent(requireContext(), ResultActivity::class.java).apply {
-                if (isGalleryImage && selectedImageUri != null) {
-                    putExtra("captured_image_uri", selectedImageUri.toString())
-                } else {
-                    putExtra("captured_image_path", photoFile.absolutePath)
-                }
-                bestBoundingBox?.let {
-                    putExtra("boundingBoxes", arrayListOf(it))
-                }
-            }
-            startActivity(intent)
-            model.close()
+            val rotatedBitmap = Bitmap.createBitmap(
+                bitmapBuffer, 0, 0, bitmapBuffer.width, bitmapBuffer.height, matrix, true
+            )
+
+            cameraViewModel.detect(rotatedBitmap)
+        }
+
+        cameraProvider.unbindAll()
+
+        try {
+            camera = cameraProvider.bindToLifecycle(
+                this, cameraSelector, preview, imageAnalyzer
+            )
+            preview?.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+        } catch (exc: Exception) {
+            Log.e(TAG, "Use case binding failed", exc)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun uriToBitmap(uri: Uri): Bitmap {
-        val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
-        return ImageDecoder.decodeBitmap(source).copy(Bitmap.Config.ARGB_8888, true)
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onResume() {
+        super.onResume()
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cameraProvider?.unbindAll()
         cameraExecutor.shutdown()
+        _binding = null
+    }
+
+    companion object {
+        private const val TAG = "Camera"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 }

@@ -209,17 +209,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ibMakanSiang" />
 
-        <ImageView
-            android:id="@+id/imageBelowMakanMalam"
-            android:layout_width="349dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/maps"
+        <Button
+            android:id="@+id/btnMaps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/intersemibold"
+            android:paddingHorizontal="32dp"
+            android:text="@string/maps"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvStuntingMaps" />
+            app:layout_constraintTop_toBottomOf="@id/tvStuntingMaps" />
+
+
 
         <TextView
             android:id="@+id/tvBeritaTerbaru"
@@ -234,7 +236,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageBelowMakanMalam" />
+            app:layout_constraintTop_toBottomOf="@+id/btnMaps" />
 
         <ImageButton
             android:id="@+id/ibBerita1"

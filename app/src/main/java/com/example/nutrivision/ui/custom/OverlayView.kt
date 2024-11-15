@@ -10,31 +10,31 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.nutrivision.R
-import java.text.NumberFormat
-import kotlin.math.max
+import com.example.nutrivision.data.BoundingBox
 
-class OverlayView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : View(context, attrs) {
 
+class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+
+    private var results = listOf<BoundingBox>()
     private var boxPaint = Paint()
     private var textBackgroundPaint = Paint()
     private var textPaint = Paint()
 
-    private var results: MutableList<BoundingBox> = mutableListOf()
-    private var scaleFactor: Float = 1f
     private var bounds = Rect()
 
     init {
         initPaints()
     }
 
-    private fun initPaints() {
-        boxPaint.color = ContextCompat.getColor(context, R.color.bounding_box_color)
-        boxPaint.style = Paint.Style.STROKE
-        boxPaint.strokeWidth = 8f
+    fun clear() {
+        textPaint.reset()
+        textBackgroundPaint.reset()
+        boxPaint.reset()
+        invalidate()
+        initPaints()
+    }
 
+    private fun initPaints() {
         textBackgroundPaint.color = Color.BLACK
         textBackgroundPaint.style = Paint.Style.FILL
         textBackgroundPaint.textSize = 50f
@@ -42,72 +42,45 @@ class OverlayView @JvmOverloads constructor(
         textPaint.color = Color.WHITE
         textPaint.style = Paint.Style.FILL
         textPaint.textSize = 50f
-    }
 
-    // Set the detection results, which include bounding boxes
-    fun setResults(detectionResults: MutableList<BoundingBox>, imageHeight: Int, imageWidth: Int) {
-        // Scale factor calculation
-        scaleFactor = max(width.toFloat() / imageWidth, height.toFloat() / imageHeight)
-
-        // Update results with scaled bounding boxes
-        results.clear()
-        detectionResults.forEach { boundingBox ->
-            results.add(boundingBox.copy(
-                left = boundingBox.left * scaleFactor,
-                top = boundingBox.top * scaleFactor,
-                right = boundingBox.right * scaleFactor,
-                bottom = boundingBox.bottom * scaleFactor
-            ))
-        }
-        invalidate() // Request redraw
+        boxPaint.color = ContextCompat.getColor(context!!, R.color.bounding_box_color)
+        boxPaint.strokeWidth = 8F
+        boxPaint.style = Paint.Style.STROKE
     }
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
-        for (result in results) {
-            val drawableRect = RectF(result.left, result.top, result.right, result.bottom)
+        results.forEach {
+            val left = it.x1 * width
+            val top = it.y1 * height
+            val right = it.x2 * width
+            val bottom = it.y2 * height
 
-            // Draw bounding box around detected objects
-            canvas.drawRect(drawableRect, boxPaint)
+            canvas.drawRect(left, top, right, bottom, boxPaint)
+            val drawableText = it.clsName
 
-            // Create text to display alongside detected objects
-            val drawableText = "${result.label} ${NumberFormat.getPercentInstance().format(result.score)}"
-
-            // Draw rect behind display text
             textBackgroundPaint.getTextBounds(drawableText, 0, drawableText.length, bounds)
             val textWidth = bounds.width()
             val textHeight = bounds.height()
             canvas.drawRect(
-                drawableRect.left,
-                drawableRect.top,
-                drawableRect.left + textWidth + BOUNDING_RECT_TEXT_PADDING,
-                drawableRect.top + textHeight + BOUNDING_RECT_TEXT_PADDING,
+                left,
+                top,
+                left + textWidth + BOUNDING_RECT_TEXT_PADDING,
+                top + textHeight + BOUNDING_RECT_TEXT_PADDING,
                 textBackgroundPaint
             )
+            canvas.drawText(drawableText, left, top + bounds.height(), textPaint)
 
-            // Draw text for detected object
-            canvas.drawText(drawableText, drawableRect.left, drawableRect.top + bounds.height(), textPaint)
         }
     }
 
-    // Clear the overlay results
-    fun clear() {
-        results.clear()
+    fun setResults(boundingBoxes: List<BoundingBox>) {
+        results = boundingBoxes
         invalidate()
     }
 
     companion object {
         private const val BOUNDING_RECT_TEXT_PADDING = 8
     }
-
-    // Data class representing a bounding box
-    data class BoundingBox(
-        val left: Float,
-        val top: Float,
-        val right: Float,
-        val bottom: Float,
-        val label: String,
-        val score: Float
-    )
 }
