@@ -21,9 +21,17 @@
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" />
     <fragment
+        android:id="@+id/usersettingFragment"
+        android:name="com.example.nutrivision.ui.settings.UserSettingFragment"
+        android:label="user_setting"
+        tools:layout="@layout/user_setting" />
+    <action
+        android:id="@+id/action_userSettingFragment_to_profileFragment"
+        app:destination="@id/profileFragment" />
+    <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.nutrivision.ui.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
 
 </navigation>

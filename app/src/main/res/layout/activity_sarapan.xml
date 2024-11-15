@@ -13,7 +13,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sarapan"
+            android:text="@string/sarapan"
+            android:fontFamily="@font/dmsanssemibold"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center"
@@ -33,6 +34,7 @@
                 android:id="@+id/foodImage1"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:contentDescription="@string/sayur_rebus"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
@@ -45,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/foodImage1"
                 android:layout_marginStart="16dp"
-                android:text="Sayur Rebus"
+                android:text="@string/sayur_rebus"
+                android:fontFamily="@font/poppinsregular"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"/>
@@ -59,7 +62,8 @@
                 android:layout_toEndOf="@id/foodImage1"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:text="Sup tahu kaya akan protein nabati dan serat, baik untuk menjaga kesehatan pencernaan."
+                android:fontFamily="@font/poppinsregular"
+                android:text="@string/sup_tahu_kaya_akan_protein_nabati_dan_serat_baik_untuk_menjaga_kesehatan_pencernaan"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray"/>
 
@@ -77,8 +81,9 @@
                     android:id="@+id/caloriesText1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1,1 ccal"
+                    android:text="@string/_250_ccal"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/poppinsregular"
                     android:drawableLeft="@drawable/ic_calories"
                     android:drawablePadding="4dp"
                     android:paddingEnd="8dp" />
@@ -87,8 +92,9 @@
                     android:id="@+id/proteinText1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Protein 17g"
+                    android:text="@string/protein_17g"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/poppinsregular"
                     android:drawableLeft="@drawable/ic_protein"
                     android:drawablePadding="4dp"
                     android:paddingEnd="8dp" />
@@ -97,7 +103,8 @@
                     android:id="@+id/fatText1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A, K, B12"
+                    android:text="@string/a_k_b12"
+                    android:fontFamily="@font/poppinsregular"
                     android:textColor="@color/black"
                     android:drawableLeft="@drawable/ic_vitamin"
                     android:drawablePadding="4dp" />
@@ -129,7 +136,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/foodImage2"
                 android:layout_marginStart="16dp"
-                android:text="Sup Tahu"
+                android:fontFamily="@font/poppinsregular"
+                android:text="@string/sup_tahu"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"/>
@@ -143,6 +151,7 @@
                 android:layout_toEndOf="@id/foodImage2"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/poppinsregular"
                 android:text="Nasi goreng sederhana dengan bumbu khas, cocok untuk menu sarapan bergizi."
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray"/>
@@ -161,8 +170,9 @@
                     android:id="@+id/caloriesText2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="200 ccal"
+                    android:text="@string/_200_ccal"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/poppinsregular"
                     android:drawableLeft="@drawable/ic_calories"
                     android:drawablePadding="4dp"
                     android:paddingEnd="8dp" />
@@ -171,7 +181,8 @@
                     android:id="@+id/proteinText2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Protein 10g"
+                    android:text="@string/protein_10g"
+                    android:fontFamily="@font/poppinsregular"
                     android:textColor="@color/black"
                     android:drawableLeft="@drawable/ic_protein"
                     android:drawablePadding="4dp"
@@ -181,7 +192,8 @@
                     android:id="@+id/fatText2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A, C, E"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="@string/a_c_e"
                     android:textColor="@color/black"
                     android:drawableLeft="@drawable/ic_vitamin"
                     android:drawablePadding="4dp" />
